@@ -1,0 +1,20 @@
+
+---
+- name: Create Jenkins directory
+  file:
+    path: /opt/jenkins
+    state: directory
+    mode: '0755'
+
+- name: Place docker-compose for Jenkins
+  template:
+    src: jenkins-compose.yml.j2
+    dest: /opt/jenkins/docker-compose.yml
+    mode: '0644'
+
+- name: Start Jenkins with Docker Compose
+  shell: |
+    cd /opt/jenkins
+    docker compose up -d
+  args:
+    executable: /bin/bash

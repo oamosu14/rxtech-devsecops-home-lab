@@ -1,0 +1,17 @@
+
+---
+- name: Ensure prerequisites present
+  package:
+    name:
+      - wget
+      - curl
+    state: present
+
+- name: Place Nagios XI installer
+  copy:
+    src: ../../../../monitoring/nagiosxi/install.sh
+    dest: /opt/install_nagiosxi.sh
+    mode: '0755'
+
+- name: Execute Nagios XI installer
+  shell: /opt/install_nagiosxi.sh

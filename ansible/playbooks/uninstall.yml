@@ -1,0 +1,25 @@
+
+---
+# Removes containers and packages installed by this lab (best-effort).
+- hosts: jenkins
+  become: true
+  tasks:
+    - name: Stop and remove jenkins/sonarqube compose
+      shell: |
+        cd /opt/jenkins && docker compose down || true
+        cd /opt/sonarqube && docker compose down || true
+      args:
+        executable: /bin/bash
+
+- hosts: apps
+  become: true
+  tasks:
+    - name: Remove demo-nginx container
+      shell: docker rm -f demo-nginx || true
+
+- hosts: monitor
+  become: true
+  tasks:
+    - name: Attempt Nagios XI uninstall (manual may be required)
+      debug:
+        msg: "Refer to monitoring/nagiosxi/install.sh for manual steps."

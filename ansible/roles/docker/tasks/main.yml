@@ -1,0 +1,34 @@
+
+---
+- name: Install Docker (Ubuntu/Debian/RHEL family)
+  block:
+    - name: Install prerequisites
+      package:
+        name:
+          - ca-certificates
+          - gnupg
+          - lsb-release
+        state: present
+      ignore_errors: true
+
+    - name: Install docker using default package manager (fallback)
+      package:
+        name: docker
+        state: present
+      ignore_errors: true
+
+    - name: Ensure docker service running
+      service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Add users to docker group
+      user:
+        name: "{{ item }}"
+        groups: docker
+        append: true
+      loop: "{{ docker_users }}"
+  rescue:
+    - debug:
+        msg: "Docker install step failed on this distro; please install manually and re-run."

@@ -1,0 +1,10 @@
+
+{
+  "name": "HomeLab-Quality-Gate",
+  "conditions": [
+    {"metric": "new_coverage", "op": "LT", "warning": 80, "error": 70},
+    {"metric": "new_security_rating", "op": "GT", "warning": 2, "error": 3},
+    {"metric": "new_reliability_rating", "op": "GT", "warning": 2, "error": 3},
+    {"metric": "new_maintainability_rating", "op": "GT", "warning": 2, "error": 3}
+  ]
+}

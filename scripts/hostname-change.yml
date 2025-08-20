@@ -1,0 +1,15 @@
+
+---
+- name: Change hostnames across nodes
+  hosts: all
+  become: true
+  vars:
+    new_hostname_map:
+      control-node: control-node
+      jenkins-node: jenkins-node
+      app-node: app-node
+      monitor-node: monitor-node
+  tasks:
+    - name: Set hostname based on inventory_hostname
+      hostname:
+        name: "{{ new_hostname_map[inventory_hostname] | default(inventory_hostname) }}"

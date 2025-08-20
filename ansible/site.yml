@@ -1,0 +1,23 @@
+
+---
+- hosts: all
+  become: true
+  roles:
+    - role: common
+
+- hosts: jenkins
+  become: true
+  roles:
+    - role: docker
+    - role: jenkins
+    - role: sonarqube
+
+- hosts: apps
+  become: true
+  roles:
+    - role: docker
+
+- hosts: monitor
+  become: true
+  roles:
+    - role: nagios
