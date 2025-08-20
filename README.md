@@ -7,10 +7,10 @@ This repository provisions a **multi-node DevSecOps home lab** using Ansible, Je
 
 | Hostname        | IP           | Role           | Key Services |
 |-----------------|--------------|----------------|--------------|
-| control-node    | 192.168.1.10 | Control        | Ansible, Git |
-| jenkins-node    | 192.168.1.11 | CI/CD          | Jenkins, SonarQube, Snyk CLI, Docker |
-| app-node        | 192.168.1.12 | Application    | Docker runtime, Sample apps |
-| monitor-node    | 192.168.1.13 | Monitoring     | Nagios XI |
+| control-node    | 192.168.1.xx | Control        | Ansible, Git |
+| jenkins-node    | 192.168.1.xx | CI/CD          | Jenkins, SonarQube, Snyk CLI, Docker |
+| app-node        | 192.168.1.xx | Application    | Docker runtime, Sample apps |
+| monitor-node    | 192.168.1.xx | Monitoring     | Nagios XI |
 
 > Adjust IPs/hostnames in `ansible/inventory.ini` for your environment.
 
@@ -32,9 +32,9 @@ ansible -i inventory.ini all -m ping
 ansible-playbook -i inventory.ini site.yml
 ```
 2) Access services post-provision:
-- Jenkins: `http://192.168.1.11:8080`
-- SonarQube: `http://192.168.1.11:9000`
-- Nagios XI: `http://192.168.1.13/nagiosxi`
+- Jenkins: `http://192.168.1.xx:8080`
+- SonarQube: `http://192.168.1.xx:9000`
+- Nagios XI: `http://192.168.1.xx/nagiosxi`
 
 3) Trigger a pipeline in Jenkins. Example Pipelines are in `jenkins/pipelines/`.
 
