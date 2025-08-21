@@ -1,0 +1,10 @@
+---
+- name: Install Grafana
+  apt:
+    name: grafana
+    state: present
+
+- name: Provision dashboards
+  copy:
+    src: dashboards/
+    dest: /etc/grafana/provisioning/dashboards/
