@@ -1,0 +1,25 @@
+---
+- name: Deploy Prometheus + Grafana on monitoring-node
+  hosts: monitoring-node,monitor
+  become: true
+  tasks:
+    - name: Ensure /opt/monitoring exists
+      file:
+        path: /opt/monitoring
+        state: directory
+        owner: "{{ ansible_user }}"
+        mode: '0755'
+
+    - name: Copy monitoring docker-compose and prometheus config
+      copy:
+        src: ../../monitoring/prometheus-grafana/
+        dest: /opt/monitoring/
+        owner: "{{ ansible_user }}"
+        mode: '0644'
+
+    - name: Start monitoring stack
+      shell: |
+        cd /opt/monitoring
+        docker compose up -d
+      args:
+        executable: /bin/bash

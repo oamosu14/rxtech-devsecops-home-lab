@@ -1,0 +1,10 @@
+# Example Ansible Vault file (YAML) - store secrets here.
+# Create with: ansible-vault create group_vars/all/vault.yml
+# Example content:
+harbor_robot_user: "robot$jenkins"
+harbor_robot_password: "REPLACE_ME"
+sonar_token: "REPLACE_ME"
+github_ssh_key: |
+  -----BEGIN OPENSSH PRIVATE KEY-----
+  ...
+  -----END OPENSSH PRIVATE KEY-----

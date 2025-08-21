@@ -1,0 +1,57 @@
+pipeline {
+  agent any
+  environment {
+    REG_HOST = '192.168.1.12'
+    REG_PROJ = 'demo'
+    IMAGE    = "${REG_HOST}/${REG_PROJ}/sample-app"
+    TAG      = "${env.BUILD_NUMBER ?: 'manual'}"
+  }
+  stages {
+    stage('Checkout') {
+      steps { git url: 'https://github.com/YOURUSER/YOURREPO.git', branch: 'main' }
+    }
+    stage('Lint') {
+      steps { sh 'pip install --user pre-commit || true; ~/.local/bin/pre-commit run --all-files || true' }
+    }
+    stage('SonarQube') {
+      steps {
+        withSonarQubeEnv('SonarQube') {
+          sh 'sonar-scanner -Dsonar.projectKey=demo -Dsonar.sources=.'
+        }
+      }
+    }
+    stage('Build') {
+      steps { sh 'docker build -t $IMAGE:$TAG docker/app' }
+    }
+    stage('Trivy Scan') {
+      steps {
+        sh './security/trivy-install.sh || true'
+        sh 'trivy image --exit-code 1 --severity CRITICAL,HIGH $IMAGE:$TAG || true'
+      }
+    }
+    stage('Push to Harbor') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'harbor-robot', usernameVariable: 'HUSER', passwordVariable: 'HPASS')]) {
+          sh 'echo "$HPASS" | docker login $REG_HOST -u "$HUSER" --password-stdin'
+          sh 'docker push $IMAGE:$TAG'
+        }
+      }
+    }
+    stage('Deploy') {
+      steps {
+        sh 'ansible-playbook -i ansible/inventory.ini ansible/playbooks/deploy_app.yml --limit docker-node'
+      }
+    }
+    stage('DAST - ZAP') {
+      steps {
+        sh './scripts/zap-baseline.sh http://192.168.1.12:30080 || true'
+      }
+    }
+    stage('IaC Scans') {
+      steps {
+        sh './security/checkov-scan.sh || true'
+        sh './security/conftest-run.sh || true'
+      }
+    }
+  }
+}

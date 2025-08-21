@@ -1,0 +1,28 @@
+---
+- name: Build app image on docker-node and push to Harbor, then deploy to k3s
+  hosts: docker-node,docker
+  become: true
+  vars:
+    harbor_host: "192.168.1.12"
+    harbor_project: "demo"
+    image_name: "{{ harbor_host }}/{{ harbor_project }}/sample-app"
+    tag: "latest"
+  tasks:
+    - name: Build docker image (requires Dockerfile in /opt/devsecops-home-lab-complete/docker/app)
+      shell: |
+        cd /opt/devsecops-home-lab-complete/docker/app
+        docker build -t {{ image_name }}:{{ tag }} .
+      args:
+        executable: /bin/bash
+
+    - name: NOTE - push image to Harbor manually or configure robot account
+      debug:
+        msg: "Push image to Harbor using robot account or docker login on docker-node."
+
+    - name: Deploy k8s manifests (requires kubeconfig on docker-node)
+      shell: |
+        export KUBECONFIG=/root/.kube/config
+        kubectl apply -f /opt/devsecops-home-lab-complete/k8s/base/deployment.yaml
+        kubectl apply -f /opt/devsecops-home-lab-complete/k8s/base/service.yaml
+      args:
+        executable: /bin/bash

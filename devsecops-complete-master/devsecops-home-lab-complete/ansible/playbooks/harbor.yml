@@ -1,0 +1,24 @@
+---
+- name: Harbor installation placeholder
+  hosts: docker-node,docker
+  become: true
+  tasks:
+    - name: Ensure /opt/harbor exists
+      file:
+        path: /opt/harbor
+        state: directory
+        owner: "{{ ansible_user }}"
+        mode: '0755'
+
+    - name: Copy harbor.yml template
+      copy:
+        src: ../../docker/harbor/harbor.yml
+        dest: /opt/harbor/harbor.yml
+        owner: "{{ ansible_user }}"
+        mode: '0644'
+
+    - name: Instruction - upload Harbor installer manually
+      debug:
+        msg: >
+          Please upload Harbor installer to /opt/harbor on docker-node and run ./install.sh there.
+          See docker/harbor/README.md for details.

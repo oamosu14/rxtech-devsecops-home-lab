@@ -1,0 +1,1 @@
+{"dashboard": {"id": null, "title": "Kubernetes Overview", "panels": [{"type": "stat", "title": "Pods Ready", "gridPos": {"x": 0, "y": 0, "w": 6, "h": 4}}, {"type": "graph", "title": "Pod CPU Usage", "gridPos": {"x": 6, "y": 0, "w": 12, "h": 6}}], "schemaVersion": 27}}

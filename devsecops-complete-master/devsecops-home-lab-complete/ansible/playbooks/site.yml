@@ -1,0 +1,5 @@
+---
+- import_playbook: playbooks/harbor.yml
+- import_playbook: playbooks/monitoring.yml
+- import_playbook: playbooks/nagios_core.yml
+- import_playbook: playbooks/deploy_app.yml

@@ -1,0 +1,23 @@
+---
+- name: Install Nagios Core on monitoring-node
+  hosts: monitoring-node,monitor
+  become: true
+  tasks:
+    - name: Ensure /opt/nagios exists
+      file:
+        path: /opt/nagios
+        state: directory
+        owner: "{{ ansible_user }}"
+        mode: '0755'
+
+    - name: Copy nagios installer script
+      copy:
+        src: ../../monitoring/nagios/install-nagios-core.sh
+        dest: /opt/nagios/install-nagios-core.sh
+        mode: '0755'
+
+    - name: Run installer (may require interaction)
+      shell: |
+        /opt/nagios/install-nagios-core.sh
+      args:
+        executable: /bin/bash

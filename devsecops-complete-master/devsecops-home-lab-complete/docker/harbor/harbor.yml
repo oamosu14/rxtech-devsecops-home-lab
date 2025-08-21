@@ -1,0 +1,7 @@
+hostname: 192.168.1.12
+http:
+  port: 80
+harbor_admin_password: "ChangeMePlease!"
+data_volume: /data
+trivy:
+  ignore_unfixed: true
