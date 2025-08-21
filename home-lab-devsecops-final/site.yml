@@ -1,0 +1,31 @@
+---
+- name: Apply Security Hardening on All Nodes
+  hosts: all
+  become: true
+  roles:
+    - { role: security_hardening, tags: ["security"] }
+
+- name: Setup Jenkins Node
+  hosts: jenkins-node
+  become: true
+  roles:
+    - { role: jenkins, tags: ["jenkins"] }
+
+- name: Setup Docker Node
+  hosts: docker-node
+  become: true
+  roles:
+    - { role: docker, tags: ["docker"] }
+
+- name: Setup Monitoring Node (Prometheus + Grafana)
+  hosts: monitoring-node
+  become: true
+  roles:
+    - { role: monitoring, tags: ["monitoring"] }
+    - { role: grafana, tags: ["grafana"] }
+
+- name: Install Nagios XI on Monitoring Node
+  hosts: monitoring-node
+  become: true
+  roles:
+    - { role: nagios, tags: ["nagios"] }

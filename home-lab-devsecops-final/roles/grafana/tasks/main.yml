@@ -1,0 +1,11 @@
+---
+# Grafana Role
+- name: Install Grafana
+  apt:
+    name: grafana
+    state: present
+
+- name: Deploy Grafana dashboards
+  template:
+    src: dashboard.json.j2
+    dest: /etc/grafana/provisioning/dashboards/dashboard.json

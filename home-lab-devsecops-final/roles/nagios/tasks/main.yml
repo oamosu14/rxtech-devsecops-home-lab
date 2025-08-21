@@ -1,0 +1,16 @@
+---
+# Nagios XI Role
+- name: Install Nagios XI prerequisites
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - apache2
+    - php
+    - libapache2-mod-php
+    - unzip
+
+- name: Download Nagios XI installer
+  get_url:
+    url: https://assets.nagios.com/downloads/nagiosxi/xi-latest.tar.gz
+    dest: /tmp/nagiosxi.tar.gz

@@ -1,0 +1,6 @@
+---
+# Monitoring Role (Prometheus + Node Exporter)
+- name: Download Prometheus
+  get_url:
+    url: https://github.com/prometheus/prometheus/releases/download/v2.45.0/prometheus-2.45.0.linux-amd64.tar.gz
+    dest: /opt/prometheus.tar.gz

@@ -1,0 +1,21 @@
+---
+# Security Hardening Role
+- name: Ensure UFW is installed and enabled
+  apt:
+    name: ufw
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Configure firewall rules
+  ufw:
+    rule: allow
+    name: 'OpenSSH'
+
+- name: Install Fail2ban
+  apt:
+    name: fail2ban
+    state: present
+
+- name: Run Lynis audit
+  shell: lynis audit system
+  register: lynis_output

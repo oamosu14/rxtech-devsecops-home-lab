@@ -1,4 +1,0 @@
----
-- name: Install Nagios XI (manual steps typically required)
-  debug:
-    msg: "Download Nagios XI installer and run it manually or via a custom script"

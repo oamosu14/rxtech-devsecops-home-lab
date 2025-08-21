@@ -1,0 +1,11 @@
+[jenkins-node]
+192.168.56.11
+
+[docker-node]
+192.168.56.12
+
+[monitoring-node]
+192.168.56.13
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3

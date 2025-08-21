@@ -1,0 +1,6 @@
+---
+# Jenkins Role
+- name: Install Java and Jenkins
+  apt:
+    name: openjdk-11-jdk
+    state: present
